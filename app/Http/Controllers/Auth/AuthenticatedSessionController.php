@@ -33,7 +33,7 @@ class AuthenticatedSessionController extends Controller
 
         $request->session()->regenerate();
 
-        return redirect()->intended(route('dashboard', absolute: false));
+        return redirect()->intended(route('member.home', absolute: false));
     }
 
     /**
@@ -90,7 +90,7 @@ class AuthenticatedSessionController extends Controller
         }
 
         // Arahkan ke dashboard setelah login
-        return redirect()->intended(route('dashboard', absolute: false));
+        return redirect()->intended(route('member.home', absolute: false));
         // Ubah '/member' menjadi route('dashboard') atau route yang sesuai
         // Kita gunakan route('dashboard') dulu karena sudah ada dari Breeze
     }
@@ -132,7 +132,7 @@ class AuthenticatedSessionController extends Controller
         }
 
         // Arahkan ke dashboard setelah login
-        return redirect()->intended(route('dashboard', absolute: false));
+        return redirect()->intended(route('member.home', absolute: false));
     }
 
 }
