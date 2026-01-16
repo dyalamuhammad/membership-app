@@ -71,13 +71,33 @@
                         @forelse($videos as $video)
                             <div class="border p-4 rounded">
                                 <h3 class="font-bold text-lg">{{ $video->title }}</h3>
-                                <!-- Embed video sederhana -->
-                                {{-- <iframe width="100%" height="200" src="{{ $video->url }}" frameborder="0"
-                                    allowfullscreen></iframe> --}}
-                                <iframe width="100%" height="200" src="{{ $video->url }}"
-                                    title="YouTube video player" frameborder="0"
-                                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                                    referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                                <!-- Embed video dengan URL yang benar -->
+                                @php
+                                    // Ekstrak ID video dari URL YouTube
+                                    $videoId = null;
+                                    $url = parse_url($video->url);
+                                    if (
+                                        isset($url['host']) &&
+                                        $url['host'] === 'www.youtube.com' &&
+                                        isset($url['query'])
+                                    ) {
+                                        parse_str($url['query'], $params);
+                                        $videoId = $params['v'] ?? null;
+                                    } elseif (
+                                        isset($url['host']) &&
+                                        $url['host'] === 'youtu.be' &&
+                                        isset($url['path'])
+                                    ) {
+                                        $videoId = trim($url['path'], '/');
+                                    }
+                                    $embedUrl = $videoId ? 'https://www.youtube.com/embed/' . $videoId : '#';
+                                @endphp
+                                @if ($embedUrl !== '#')
+                                    <iframe width="100%" height="200" src="{{ $embedUrl }}" frameborder="0"
+                                        allowfullscreen></iframe>
+                                @else
+                                    <p class="text-red-500">URL video tidak valid: {{ $video->url }}</p>
+                                @endif
                             </div>
                         @empty
                             <p class="col-span-full text-center text-gray-500">Tidak ada video yang tersedia.</p>
