@@ -38,8 +38,8 @@ Sebelum menjalankan aplikasi ini, pastikan kamu memiliki:
 
 1.  **Clone Repository:**
     ```bash
-    git clone https://github.com/[USERNAME_KAMU]/[NAMA_REPOSITORY_MEMBERSHIP_APP].git
-    cd [NAMA_REPOSITORY_MEMBERSHIP_APP]
+    git clone https://github.com/dyalamuhammad/membership-app.git
+    cd membership-app
     ```
 
 2.  **Install Dependencies:**
@@ -58,7 +58,7 @@ Sebelum menjalankan aplikasi ini, pastikan kamu memiliki:
         DB_CONNECTION=mysql
         DB_HOST=127.0.0.1
         DB_PORT=3306
-        DB_DATABASE=[NAMA_DATABASE_KAMU]
+        DB_DATABASE=membership_app_db
         DB_USERNAME=[USERNAME_DATABASE]
         DB_PASSWORD=[PASSWORD_DATABASE]
         ```
