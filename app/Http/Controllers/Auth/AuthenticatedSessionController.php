@@ -33,7 +33,13 @@ class AuthenticatedSessionController extends Controller
 
         $request->session()->regenerate();
 
-        return redirect()->intended(route('member.home', absolute: false));
+        // Tentukan redirect berdasarkan role
+        $user = Auth::user();
+        if ($user->role === 'admin') {
+            return redirect()->intended(route('admin.dashboard', absolute: false));
+        } else {
+            return redirect()->intended(route('member.home', absolute: false)); // Atau route('dashboard', absolute: false) jika itu tetap tujuan member
+        }
     }
 
     /**
@@ -84,6 +90,7 @@ class AuthenticatedSessionController extends Controller
             $newUser->provider_id = $user->getId();
             // Kita bisa set password acak karena login via social
             $newUser->password = Hash::make('password_dari_google_facebook'); // Gunakan Hash
+            $newUser->role = 'member'; // Beri role default member saat register via social
             $newUser->save();
 
             Auth::login($newUser, true);
@@ -126,6 +133,7 @@ class AuthenticatedSessionController extends Controller
             $newUser->provider = 'facebook';
             $newUser->provider_id = $user->getId();
             $newUser->password = Hash::make('password_dari_google_facebook'); // Gunakan Hash
+            $newUser->role = 'member'; // Beri role default member saat register via social
             $newUser->save();
 
             Auth::login($newUser, true);
